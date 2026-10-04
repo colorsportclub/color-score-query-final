@@ -1,0 +1,715 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>成績查詢系統</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, "Noto Sans TC", sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 30px;
+      font-size: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 46px;
+      padding: 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #1976d2;
+    }
+
+    select:disabled {
+      background: #eeeeee;
+      color: #999;
+    }
+
+    button {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 8px;
+      background: #1976d2;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #125ca5;
+    }
+
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 35px;
+    }
+
+    .result-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th {
+      background: #1976d2;
+      color: white;
+      padding: 13px 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    td {
+      padding: 13px 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    tr:nth-child(even) {
+      background: #f8f8f8;
+    }
+
+    .message {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #1976d2;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        margin: 10px auto;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>成績查詢系統</h1>
+
+    <!-- 班別 -->
+    <div class="form-group">
+      <label for="classSelect">班別</label>
+
+      <select id="classSelect">
+        <option value="">班別載入中...</option>
+      </select>
+    </div>
+
+    <!-- 姓名 -->
+    <div class="form-group">
+      <label for="nameInput">姓名</label>
+
+      <input
+        type="text"
+        id="nameInput"
+        placeholder="請輸入姓名"
+        autocomplete="off"
+      >
+    </div>
+
+    <!-- 項目 -->
+    <div class="form-group">
+      <label for="itemSelect">項目</label>
+
+      <select id="itemSelect" disabled>
+        <option value="">請先選擇班別並輸入姓名</option>
+      </select>
+    </div>
+
+    <!-- 查詢 -->
+    <button id="searchButton">
+      查詢成績
+    </button>
+
+    <!-- 結果 -->
+    <div class="result">
+
+      <div class="result-title">
+        查詢結果
+      </div>
+
+      <div id="resultArea">
+        <div class="message">
+          請選擇班別、輸入姓名並選擇項目
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    // ==================================================
+    // Apps Script 網址
+    // ==================================================
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbxH5g5d8vlbMjs6XxHK4JN634Kg7LuP7Bnmg-qjRnKKYVNNGDaz1s2a0gJE1RVY3uQ5/exec";
+
+
+    // ==================================================
+    // 取得網頁元件
+    // ==================================================
+
+    const classSelect =
+      document.getElementById("classSelect");
+
+    const nameInput =
+      document.getElementById("nameInput");
+
+    const itemSelect =
+      document.getElementById("itemSelect");
+
+    const searchButton =
+      document.getElementById("searchButton");
+
+    const resultArea =
+      document.getElementById("resultArea");
+
+
+    // ==================================================
+    // 網頁載入後取得班別
+    // ==================================================
+
+    window.addEventListener("load", function() {
+      loadClasses();
+    });
+
+
+    // ==================================================
+    // 載入班別
+    // ==================================================
+
+    function loadClasses() {
+
+      classSelect.innerHTML =
+        '<option value="">班別載入中...</option>';
+
+      fetch(API_URL + "?action=classes")
+
+        .then(function(response) {
+
+          if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+          }
+
+          return response.json();
+
+        })
+
+        .then(function(data) {
+
+          console.log("班別資料：", data);
+
+          if (!Array.isArray(data)) {
+            throw new Error("班別資料格式錯誤");
+          }
+
+          classSelect.innerHTML =
+            '<option value="">請選擇班別</option>';
+
+          data.forEach(function(className) {
+
+            const option =
+              document.createElement("option");
+
+            option.value = className;
+            option.textContent = className;
+
+            classSelect.appendChild(option);
+
+          });
+
+        })
+
+        .catch(function(error) {
+
+          console.error("班別載入失敗：", error);
+
+          classSelect.innerHTML =
+            '<option value="">班別載入失敗</option>';
+
+        });
+    }
+
+
+    // ==================================================
+    // 選擇班別後
+    // ==================================================
+
+    classSelect.addEventListener("change", function() {
+
+      clearItems();
+
+      nameInput.value = "";
+
+      resultArea.innerHTML =
+        '<div class="message">請輸入姓名</div>';
+
+    });
+
+
+    // ==================================================
+    // 輸入姓名後按 Enter
+    // ==================================================
+
+    nameInput.addEventListener("keydown", function(event) {
+
+      if (event.key === "Enter") {
+        loadItems();
+      }
+
+    });
+
+
+    // ==================================================
+    // 姓名輸入框離開後
+    // ==================================================
+
+    nameInput.addEventListener("blur", function() {
+
+      loadItems();
+
+    });
+
+
+    // ==================================================
+    // 清除項目
+    // ==================================================
+
+    function clearItems() {
+
+      itemSelect.innerHTML =
+        '<option value="">請先選擇班別並輸入姓名</option>';
+
+      itemSelect.disabled = true;
+
+    }
+
+
+    // ==================================================
+    // 根據姓名＋班別取得項目
+    // ==================================================
+
+    function loadItems() {
+
+      const className =
+        classSelect.value.trim();
+
+      const name =
+        nameInput.value.trim();
+
+
+      if (className === "") {
+
+        clearItems();
+
+        return;
+
+      }
+
+
+      if (name === "") {
+
+        clearItems();
+
+        return;
+
+      }
+
+
+      itemSelect.disabled = true;
+
+      itemSelect.innerHTML =
+        '<option value="">項目載入中...</option>';
+
+
+      const url =
+        API_URL +
+        "?action=items" +
+        "&name=" +
+        encodeURIComponent(name) +
+        "&className=" +
+        encodeURIComponent(className);
+
+
+      console.log("取得項目：", url);
+
+
+      fetch(url)
+
+        .then(function(response) {
+
+          if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+          }
+
+          return response.json();
+
+        })
+
+        .then(function(data) {
+
+          console.log("項目資料：", data);
+
+
+          if (!Array.isArray(data)) {
+            throw new Error("項目資料格式錯誤");
+          }
+
+
+          itemSelect.innerHTML =
+            '<option value="">請選擇項目</option>';
+
+
+          if (data.length === 0) {
+
+            itemSelect.innerHTML =
+              '<option value="">查無此學生</option>';
+
+            itemSelect.disabled = true;
+
+            return;
+
+          }
+
+
+          data.forEach(function(item) {
+
+            const option =
+              document.createElement("option");
+
+            option.value = item;
+            option.textContent = item;
+
+            itemSelect.appendChild(option);
+
+          });
+
+
+          itemSelect.disabled = false;
+
+        })
+
+        .catch(function(error) {
+
+          console.error("項目載入失敗：", error);
+
+          itemSelect.innerHTML =
+            '<option value="">項目載入失敗</option>';
+
+          itemSelect.disabled = true;
+
+        });
+
+    }
+
+
+    // ==================================================
+    // 查詢按鈕
+    // ==================================================
+
+    searchButton.addEventListener("click", function() {
+
+      searchScore();
+
+    });
+
+
+    // ==================================================
+    // 查詢成績
+    // ==================================================
+
+    function searchScore() {
+
+      const className =
+        classSelect.value.trim();
+
+      const name =
+        nameInput.value.trim();
+
+      const item =
+        itemSelect.value.trim();
+
+
+      if (className === "") {
+
+        alert("請選擇班別");
+
+        return;
+
+      }
+
+
+      if (name === "") {
+
+        alert("請輸入姓名");
+
+        nameInput.focus();
+
+        return;
+
+      }
+
+
+      if (item === "") {
+
+        alert("請選擇項目");
+
+        return;
+
+      }
+
+
+      resultArea.innerHTML =
+        '<div class="loading">查詢中...</div>';
+
+
+      searchButton.disabled = true;
+
+
+      const url =
+        API_URL +
+        "?name=" +
+        encodeURIComponent(name) +
+        "&className=" +
+        encodeURIComponent(className) +
+        "&item=" +
+        encodeURIComponent(item);
+
+
+      console.log("查詢網址：", url);
+
+
+      fetch(url)
+
+        .then(function(response) {
+
+          if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+          }
+
+          return response.json();
+
+        })
+
+        .then(function(data) {
+
+          console.log("查詢結果：", data);
+
+          displayResults(data);
+
+        })
+
+        .catch(function(error) {
+
+          console.error("查詢失敗：", error);
+
+          resultArea.innerHTML =
+            '<div class="message">查詢失敗，請稍後再試</div>';
+
+        })
+
+        .finally(function() {
+
+          searchButton.disabled = false;
+
+        });
+
+    }
+
+
+    // ==================================================
+    // 顯示成績
+    // ==================================================
+
+    function displayResults(data) {
+
+      if (
+        !Array.isArray(data) ||
+        data.length === 0
+      ) {
+
+        resultArea.innerHTML =
+          '<div class="message">查無此項目的測驗成績</div>';
+
+        return;
+
+      }
+
+
+      let html = "";
+
+      html += '<div class="table-wrapper">';
+
+      html += '<table>';
+
+      html += '<thead>';
+
+      html += '<tr>';
+
+      html += '<th>測驗日期</th>';
+
+      html += '<th>教練</th>';
+
+      html += '<th>項目</th>';
+
+      html += '<th>成績</th>';
+
+      html += '</tr>';
+
+      html += '</thead>';
+
+      html += '<tbody>';
+
+
+      data.forEach(function(row) {
+
+        html += '<tr>';
+
+        html +=
+          '<td>' +
+          escapeHTML(row.testDate || "") +
+          '</td>';
+
+        html +=
+          '<td>' +
+          escapeHTML(row.coach || "") +
+          '</td>';
+
+        html +=
+          '<td>' +
+          escapeHTML(row.item || "") +
+          '</td>';
+
+        html +=
+          '<td>' +
+          escapeHTML(row.score || "") +
+          '</td>';
+
+        html += '</tr>';
+
+      });
+
+
+      html += '</tbody>';
+
+      html += '</table>';
+
+      html += '</div>';
+
+
+      resultArea.innerHTML = html;
+
+    }
+
+
+    // ==================================================
+    // 防止 HTML 字元造成網頁問題
+    // ==================================================
+
+    function escapeHTML(value) {
+
+      return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+    }
+
+  </script>
+
+</body>
+
+</html>
+```
