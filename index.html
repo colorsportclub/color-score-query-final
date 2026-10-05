@@ -3,2382 +3,2105 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <title>COLOR 成績查詢系統</title>
+<title>COLOR 成績查詢系統</title>
 
 
-  <style>
+<style>
 
-    /* =====================================================
-       基本設定
-    ===================================================== */
+* {
+  box-sizing: border-box;
+}
 
-    * {
-      box-sizing: border-box;
-    }
 
+body {
 
-    body {
+  margin: 0;
 
-      margin: 0;
+  min-height: 100vh;
 
-      padding: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans TC",
+    "Microsoft JhengHei",
+    Arial,
+    sans-serif;
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Noto Sans TC",
-        "Microsoft JhengHei",
-        Arial,
-        sans-serif;
+  background:
+    linear-gradient(
+      180deg,
+      #f5f6f8 0%,
+      #ffffff 100%
+    );
 
-      background:
-        linear-gradient(
-          180deg,
-          #f5f6f8 0%,
-          #ffffff 100%
-        );
+  color: #222;
 
-      color: #222;
+}
 
-      min-height: 100vh;
 
-    }
+.page {
 
+  width: 100%;
 
+  max-width: 760px;
 
-    /* =====================================================
-       整個網站
-    ===================================================== */
+  margin: auto;
 
-    .page {
+  padding:
+    30px
+    20px
+    50px;
 
-      width: 100%;
+}
 
-      max-width: 760px;
 
-      margin: 0 auto;
+/* =====================================================
+   Logo
+===================================================== */
 
-      padding: 30px 20px 50px;
+.logo-area {
 
-    }
+  text-align: center;
 
+  margin-bottom: 8px;
 
+}
 
-    /* =====================================================
-       Logo
-    ===================================================== */
 
-    .logo-area {
+.logo {
 
-      text-align: center;
+  width: 150px;
 
-      margin-bottom: 8px;
+  max-width: 45vw;
 
-    }
+  height: auto;
 
+  display: block;
 
-    .logo {
+  margin: auto;
 
-      width: 150px;
+}
 
-      max-width: 45vw;
 
-      height: auto;
+/* =====================================================
+   標題
+===================================================== */
 
-      object-fit: contain;
+.title {
 
-      display: block;
+  text-align: center;
 
-      margin: 0 auto 8px;
+  font-size: 32px;
 
-    }
+  font-weight: 900;
 
+  margin: 8px 0 0;
 
-    /* 如果 logo.png 尚未放入 GitHub */
+}
 
-    .logo-fallback {
 
-      display: none;
+.subtitle {
 
-      font-size: 34px;
+  text-align: center;
 
-      font-weight: 900;
+  color: #888;
 
-      letter-spacing: 2px;
+  font-size: 15px;
 
-    }
+  margin:
+    8px
+    0
+    28px;
 
+}
 
 
-    /* =====================================================
-       標題
-    ===================================================== */
+/* =====================================================
+   查詢卡片
+===================================================== */
 
-    .title {
+.search-card {
 
-      text-align: center;
+  background: #fff;
 
-      font-size: 32px;
+  padding: 28px;
 
-      font-weight: 900;
+  border-radius: 22px;
 
-      margin: 0;
+  box-shadow:
+    0 10px 35px
+    rgba(
+      0,
+      0,
+      0,
+      0.08
+    );
 
-      letter-spacing: 1px;
+}
 
-    }
 
+.field {
 
-    .subtitle {
+  margin-bottom: 20px;
 
-      text-align: center;
+}
 
-      color: #888;
 
-      margin-top: 8px;
+label {
 
-      margin-bottom: 28px;
+  display: block;
 
-      font-size: 15px;
+  font-size: 16px;
 
-    }
+  font-weight: 700;
 
+  margin-bottom: 8px;
 
+}
 
-    /* =====================================================
-       查詢卡片
-    ===================================================== */
 
-    .search-card {
+input,
+select {
 
-      background: #ffffff;
+  width: 100%;
 
-      border-radius: 22px;
+  height: 52px;
 
-      padding: 28px;
+  border:
+    1px solid
+    #d8dce2;
 
-      box-shadow:
-        0 10px 35px rgba(
-          0,
-          0,
-          0,
-          0.08
-        );
+  border-radius: 13px;
 
-      margin-bottom: 30px;
+  padding:
+    0
+    16px;
 
-    }
+  background: #fff;
 
+  font-size: 16px;
 
+  outline: none;
 
-    /* =====================================================
-       表單欄位
-    ===================================================== */
+}
 
-    .field {
 
-      margin-bottom: 20px;
+input:focus,
+select:focus {
 
-    }
+  border-color: #111;
 
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      0,
+      0,
+      0,
+      0.06
+    );
 
-    .field:last-child {
+}
 
-      margin-bottom: 0;
 
-    }
+/* =====================================================
+   查詢按鈕
+===================================================== */
 
+.search-button {
 
-    label {
+  width: 100%;
 
-      display: block;
+  height: 54px;
 
-      font-size: 16px;
+  border: 0;
 
-      font-weight: 700;
+  border-radius: 14px;
 
-      margin-bottom: 8px;
+  background: #111;
 
-    }
+  color: #fff;
 
+  font-size: 17px;
 
-    input,
-    select {
+  font-weight: 800;
 
-      width: 100%;
+  cursor: pointer;
 
-      height: 52px;
+}
 
-      border: 1px solid #d8dce2;
 
-      border-radius: 13px;
+.search-button:disabled {
 
-      background: #fff;
+  background: #999;
 
-      padding: 0 16px;
+}
 
-      font-size: 16px;
 
-      color: #222;
+/* =====================================================
+   狀態
+===================================================== */
 
-      outline: none;
+.status {
 
-      transition: 0.2s;
+  min-height: 24px;
 
-    }
+  text-align: center;
 
+  margin:
+    14px
+    0;
 
-    input:focus,
-    select:focus {
+  font-size: 15px;
 
-      border-color: #111;
+  font-weight: 600;
 
-      box-shadow:
-        0 0 0 3px rgba(
-          0,
-          0,
-          0,
-          0.06
-        );
+}
 
-    }
 
+.status.success {
 
+  color: #149447;
 
-    /* =====================================================
-       查詢按鈕
-    ===================================================== */
+}
 
-    .search-button {
 
-      width: 100%;
+.status.error {
 
-      height: 54px;
+  color: #d93025;
 
-      border: none;
+}
 
-      border-radius: 14px;
 
-      background: #111;
+.status.loading {
 
-      color: #fff;
+  color: #777;
 
-      font-size: 17px;
+}
 
-      font-weight: 800;
 
-      cursor: pointer;
+/* =====================================================
+   結果
+===================================================== */
 
-      transition: 0.2s;
+.result-title {
 
-      margin-top: 4px;
+  font-size: 21px;
 
-    }
+  font-weight: 900;
 
+  margin:
+    20px
+    0
+    15px;
 
-    .search-button:hover {
+}
 
-      background: #2b2b2b;
 
-    }
+.result-card {
 
+  background: #fff;
 
-    .search-button:active {
+  border-radius: 20px;
 
-      transform: scale(0.98);
+  padding: 20px;
 
-    }
+  margin-bottom: 16px;
 
+  border:
+    1px solid
+    #eeeeee;
 
-    .search-button:disabled {
+  box-shadow:
+    0 8px 25px
+    rgba(
+      0,
+      0,
+      0,
+      0.07
+    );
 
-      background: #999;
+}
 
-      cursor: not-allowed;
 
-    }
+.result-card.best {
 
+  border:
+    2px solid
+    #111;
 
+}
 
-    /* =====================================================
-       狀態訊息
-    ===================================================== */
 
-    .status {
+.best-badge {
 
-      text-align: center;
+  display: inline-block;
 
-      min-height: 24px;
+  background: #111;
 
-      margin: 12px 0 18px;
+  color: #fff;
 
-      font-size: 15px;
+  border-radius: 999px;
 
-      font-weight: 600;
+  padding:
+    5px
+    10px;
 
-    }
+  font-size: 12px;
 
+  font-weight: 800;
 
-    .status.success {
+  margin-bottom: 12px;
 
-      color: #149447;
+}
 
-    }
 
+.result-top {
 
-    .status.error {
+  display: flex;
 
-      color: #d93025;
+  justify-content:
+    space-between;
 
-    }
+  align-items:
+    flex-start;
 
+  gap: 12px;
 
-    .status.loading {
+}
 
-      color: #777;
 
-    }
+.result-item {
 
+  font-size: 21px;
 
+  font-weight: 900;
 
-    /* =====================================================
-       查詢結果標題
-    ===================================================== */
+}
 
-    .result-title {
 
-      font-size: 21px;
+.result-date {
 
-      font-weight: 900;
+  color: #888;
 
-      margin: 0 0 15px;
+  font-size: 13px;
 
-    }
+  white-space: nowrap;
 
+}
 
 
-    /* =====================================================
-       成績卡片
-    ===================================================== */
+.coach {
 
-    .result-card {
+  color: #666;
 
-      background: #fff;
+  font-size: 14px;
 
-      border-radius: 20px;
+  margin:
+    8px
+    0
+    15px;
 
-      padding: 20px;
+}
 
-      margin-bottom: 16px;
 
-      box-shadow:
-        0 8px 25px rgba(
-          0,
-          0,
-          0,
-          0.07
-        );
+/* =====================================================
+   五圈一排
+===================================================== */
 
-      border: 1px solid #eeeeee;
+.lap-title {
 
-      position: relative;
+  color: #777;
 
-      overflow: hidden;
+  font-size: 13px;
 
-    }
+  font-weight: 700;
 
+  margin-bottom: 7px;
 
-    /* 最佳成績左側標記 */
+}
 
-    .result-card.best {
 
-      border: 2px solid #111;
+.laps {
 
-      box-shadow:
-        0 10px 30px rgba(
-          0,
-          0,
-          0,
-          0.12
-        );
+  display: grid;
 
-    }
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(
+        0,
+        1fr
+      )
+    );
 
+  gap: 5px;
 
-    .best-badge {
+  margin-bottom: 10px;
 
-      display: inline-flex;
+}
 
-      align-items: center;
 
-      gap: 5px;
+.lap {
 
-      background: #111;
+  min-width: 0;
 
-      color: #fff;
+  background: #f4f5f7;
 
-      border-radius: 999px;
+  border-radius: 9px;
 
-      padding: 5px 10px;
+  padding:
+    6px
+    3px;
 
-      font-size: 12px;
+  text-align: center;
 
-      font-weight: 800;
+}
 
-      margin-bottom: 12px;
 
-    }
+.lap-label {
 
+  display: block;
 
+  font-size: 9px;
 
-    /* =====================================================
-       項目 + 日期
-    ===================================================== */
+  color: #999;
 
-    .result-top {
+}
 
-      display: flex;
 
-      justify-content: space-between;
+.lap-value {
 
-      align-items: flex-start;
+  display: block;
 
-      gap: 15px;
+  font-size: 13px;
 
-      margin-bottom: 10px;
+  font-weight: 800;
 
-    }
+  white-space: nowrap;
 
+  overflow: hidden;
 
-    .result-item {
+  text-overflow: ellipsis;
 
-      font-size: 21px;
+}
 
-      font-weight: 900;
 
-    }
+.dash {
 
+  color: #aaa;
 
-    .result-date {
+}
 
-      color: #888;
 
-      font-size: 14px;
+/* =====================================================
+   總秒
+===================================================== */
 
-      white-space: nowrap;
+.total-box {
 
-      padding-top: 4px;
+  background: #111;
 
-    }
+  color: #fff;
 
+  border-radius: 13px;
 
-    .coach {
+  padding:
+    11px
+    14px;
 
-      color: #666;
+  display: flex;
 
-      font-size: 14px;
+  justify-content:
+    space-between;
 
-      margin-bottom: 16px;
+  align-items:
+    center;
 
-    }
+}
 
 
+.total-label {
 
-    /* =====================================================
-       圈數標題
-    ===================================================== */
+  color: #ddd;
 
-    .lap-title {
+  font-size: 13px;
 
-      font-size: 13px;
+  font-weight: 700;
 
-      font-weight: 700;
+}
 
-      color: #777;
 
-      margin-bottom: 7px;
+.total-value {
 
-    }
+  font-size: 24px;
 
+  font-weight: 900;
 
+}
 
-    /* =====================================================
-       五圈一排
-    ===================================================== */
 
-    .laps {
+.best .total-value {
 
-      display: grid;
+  font-size: 26px;
 
-      grid-template-columns:
-        repeat(5, minmax(0, 1fr));
+}
 
-      gap: 5px;
 
-      width: 100%;
+/* =====================================================
+   無資料
+===================================================== */
 
-      margin-bottom: 10px;
+.empty {
 
-    }
+  text-align: center;
 
+  background: #fff;
 
-    .lap {
+  border-radius: 18px;
 
-      min-width: 0;
+  padding: 35px 20px;
 
-      background: #f4f5f7;
+  color: #888;
 
-      border-radius: 9px;
+}
 
-      padding: 6px 3px;
 
-      text-align: center;
+/* =====================================================
+   Footer
+===================================================== */
 
-    }
+.footer {
 
+  text-align: center;
 
-    .lap-label {
+  color: #aaa;
 
-      display: block;
+  font-size: 13px;
 
-      font-size: 9px;
+  margin-top: 35px;
 
-      color: #999;
+}
 
-      margin-bottom: 2px;
 
-      white-space: nowrap;
+/* =====================================================
+   手機
+===================================================== */
 
-    }
+@media (
+  max-width: 600px
+) {
 
+  .page {
 
-    .lap-value {
+    padding:
+      20px
+      14px
+      35px;
 
-      display: block;
+  }
 
-      font-size: 13px;
 
-      font-weight: 800;
+  .logo {
 
-      white-space: nowrap;
+    width: 115px;
 
-      overflow: hidden;
+  }
 
-      text-overflow: ellipsis;
 
-    }
+  .title {
 
+    font-size: 25px;
 
+  }
 
-    /* =====================================================
-       總秒
-    ===================================================== */
 
-    .total-box {
+  .subtitle {
 
-      background: #111;
+    font-size: 13px;
 
-      color: #fff;
+    margin-bottom: 20px;
 
-      border-radius: 13px;
+  }
 
-      padding: 11px 14px;
 
-      display: flex;
+  .search-card {
 
-      justify-content: space-between;
+    padding:
+      20px
+      16px;
 
-      align-items: center;
+    border-radius: 18px;
 
-      gap: 10px;
+  }
 
-    }
 
+  .result-card {
 
-    .total-label {
+    padding: 16px;
 
-      font-size: 13px;
+    border-radius: 17px;
 
-      font-weight: 700;
+  }
 
-      color: #ddd;
 
-    }
+  .result-item {
 
+    font-size: 19px;
 
-    .total-value {
+  }
 
-      font-size: 24px;
 
-      font-weight: 900;
+  .result-date {
 
-      letter-spacing: 0.5px;
+    font-size: 11px;
 
-      text-align: right;
+  }
 
-    }
 
+  .lap-label {
 
-    .best .total-value {
+    font-size: 8px;
 
-      font-size: 26px;
+  }
 
-    }
 
+  .lap-value {
 
+    font-size: 12px;
 
-    /* =====================================================
-       沒有圈數時
-    ===================================================== */
+  }
 
-    .dash {
 
-      color: #aaa;
+  .total-value {
 
-    }
+    font-size: 22px;
 
+  }
 
+}
 
-    /* =====================================================
-       沒有資料
-    ===================================================== */
 
-    .empty {
-
-      text-align: center;
-
-      padding: 35px 20px;
-
-      background: #fff;
-
-      border-radius: 18px;
-
-      color: #888;
-
-      box-shadow:
-        0 8px 25px rgba(
-          0,
-          0,
-          0,
-          0.05
-        );
-
-    }
-
-
-
-    /* =====================================================
-       Footer
-    ===================================================== */
-
-    .footer {
-
-      text-align: center;
-
-      color: #aaa;
-
-      font-size: 13px;
-
-      margin-top: 35px;
-
-    }
-
-
-
-    /* =====================================================
-       Loading
-    ===================================================== */
-
-    .loading-dot {
-
-      display: inline-block;
-
-      animation:
-        loading 1.2s infinite;
-
-    }
-
-
-    @keyframes loading {
-
-      0% {
-        opacity: 0.25;
-      }
-
-      50% {
-        opacity: 1;
-      }
-
-      100% {
-        opacity: 0.25;
-      }
-
-    }
-
-
-
-    /* =====================================================
-       手機版
-    ===================================================== */
-
-    @media (
-      max-width: 600px
-    ) {
-
-      .page {
-
-        padding:
-          20px
-          14px
-          35px;
-
-      }
-
-
-      .logo {
-
-        width: 115px;
-
-      }
-
-
-      .title {
-
-        font-size: 25px;
-
-      }
-
-
-      .subtitle {
-
-        font-size: 13px;
-
-        margin-bottom: 20px;
-
-      }
-
-
-      .search-card {
-
-        padding: 20px 16px;
-
-        border-radius: 18px;
-
-      }
-
-
-      label {
-
-        font-size: 15px;
-
-      }
-
-
-      input,
-      select {
-
-        height: 50px;
-
-        font-size: 16px;
-
-      }
-
-
-      .search-button {
-
-        height: 52px;
-
-      }
-
-
-      .result-title {
-
-        font-size: 19px;
-
-      }
-
-
-      .result-card {
-
-        padding: 16px;
-
-        border-radius: 17px;
-
-      }
-
-
-      .result-item {
-
-        font-size: 19px;
-
-      }
-
-
-      .result-date {
-
-        font-size: 12px;
-
-      }
-
-
-      .coach {
-
-        font-size: 13px;
-
-      }
-
-
-      /* 五圈依然保持同一排 */
-
-      .laps {
-
-        gap: 4px;
-
-      }
-
-
-      .lap {
-
-        padding:
-          5px
-          2px;
-
-        border-radius: 8px;
-
-      }
-
-
-      .lap-label {
-
-        font-size: 8px;
-
-      }
-
-
-      .lap-value {
-
-        font-size: 12px;
-
-      }
-
-
-      .total-box {
-
-        padding:
-          10px
-          12px;
-
-      }
-
-
-      .total-value {
-
-        font-size: 22px;
-
-      }
-
-
-      .best .total-value {
-
-        font-size: 24px;
-
-      }
-
-    }
-
-
-
-    /* =====================================================
-       超小手機
-    ===================================================== */
-
-    @media (
-      max-width: 360px
-    ) {
-
-      .page {
-
-        padding-left: 10px;
-
-        padding-right: 10px;
-
-      }
-
-
-      .result-card {
-
-        padding: 13px;
-
-      }
-
-
-      .lap-label {
-
-        font-size: 7px;
-
-      }
-
-
-      .lap-value {
-
-        font-size: 11px;
-
-      }
-
-
-      .total-value {
-
-        font-size: 20px;
-
-      }
-
-    }
-
-  </style>
+</style>
 
 </head>
-
 
 
 <body>
 
 
-  <div class="page">
+<div class="page">
 
 
-    <!-- =================================================
-         COLOR Logo
-    ================================================= -->
+  <!-- =================================================
+       COLOR Logo
+  ================================================= -->
 
-    <div class="logo-area">
+  <div class="logo-area">
 
-      <!--
-        請把 COLOR Logo 圖片檔案命名為：
+    <img
+      src="logo.png"
+      class="logo"
+      alt="COLOR Logo"
+    >
 
-        logo.png
+  </div>
 
-        然後上傳到 GitHub 與 index.html
-        同一個資料夾。
 
-        如果你的檔名不同，
-        修改下面 src 即可。
-      -->
 
-      <img
-        src="logo.png"
-        class="logo"
-        alt="COLOR Logo"
-        onerror="
-          this.style.display='none';
-          document.getElementById('logoFallback').style.display='block';
-        "
+  <h1 class="title">
+    COLOR 成績查詢系統
+  </h1>
+
+
+  <div class="subtitle">
+    查詢你的測驗成績
+  </div>
+
+
+
+  <!-- =================================================
+       查詢區
+  ================================================= -->
+
+  <div class="search-card">
+
+
+    <!-- 等級 -->
+
+    <div class="field">
+
+      <label for="level">
+        等級
+      </label>
+
+
+      <select
+        id="level"
       >
 
+        <option>
+          等級載入中...
+        </option>
 
-      <div
-        id="logoFallback"
-        class="logo-fallback"
+      </select>
+
+    </div>
+
+
+
+    <!-- 班別 -->
+
+    <div class="field">
+
+      <label for="className">
+        班別
+      </label>
+
+
+      <select
+        id="className"
+        disabled
       >
-        COLOR
-      </div>
+
+        <option>
+          班別載入中...
+        </option>
+
+      </select>
 
     </div>
 
 
 
-    <!-- =================================================
-         標題
-    ================================================= -->
+    <!-- 姓名 -->
 
-    <h1 class="title">
-      COLOR 成績查詢系統
-    </h1>
+    <div class="field">
 
-
-    <div class="subtitle">
-      查詢你的測驗成績
-    </div>
+      <label for="name">
+        姓名
+      </label>
 
 
-
-    <!-- =================================================
-         查詢區
-    ================================================= -->
-
-    <div class="search-card">
-
-
-      <!-- 等級 -->
-
-      <div class="field">
-
-        <label for="level">
-          等級
-        </label>
-
-        <select id="level">
-
-          <!--
-            如果你的試算表還有其他分頁，
-            在這裡增加即可。
-
-            例如：
-
-            <option value="初階">初階</option>
-            <option value="進階">進階</option>
-          -->
-
-          <option value="養成">
-            養成
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <!-- 班別 -->
-
-      <div class="field">
-
-        <label for="className">
-          班別
-        </label>
-
-        <select
-          id="className"
-          disabled
-        >
-
-          <option>
-            班別載入中...
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <!-- 姓名 -->
-
-      <div class="field">
-
-        <label for="name">
-          姓名
-        </label>
-
-        <input
-          id="name"
-          type="text"
-          placeholder="請輸入姓名"
-          autocomplete="off"
-        >
-
-      </div>
-
-
-
-      <!-- 項目 -->
-
-      <div class="field">
-
-        <label for="item">
-          項目
-        </label>
-
-        <select
-          id="item"
-          disabled
-        >
-
-          <option>
-            請先輸入姓名
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <!-- 查詢按鈕 -->
-
-      <button
-        id="searchButton"
-        class="search-button"
-        type="button"
+      <input
+        id="name"
+        type="text"
+        placeholder="請輸入姓名"
+        autocomplete="off"
       >
-        查詢成績
-      </button>
 
     </div>
 
 
 
-    <!-- =================================================
-         狀態
-    ================================================= -->
+    <!-- 項目 -->
 
-    <div
-      id="status"
-      class="status"
-    ></div>
+    <div class="field">
 
+      <label for="item">
+        項目
+      </label>
 
 
-    <!-- =================================================
-         查詢結果
-    ================================================= -->
+      <select
+        id="item"
+        disabled
+      >
 
-    <div id="resultsArea"></div>
+        <option>
+          請先輸入姓名
+        </option>
 
+      </select>
 
-
-    <!-- =================================================
-         Footer
-    ================================================= -->
-
-    <div class="footer">
-      COLOR 成績查詢系統
     </div>
+
+
+
+    <button
+      id="searchButton"
+      class="search-button"
+    >
+      查詢成績
+    </button>
 
 
   </div>
 
 
 
-  <script>
+  <div
+    id="status"
+    class="status"
+  ></div>
 
 
-    // =====================================================
-    // Google Apps Script API
-    // =====================================================
-    //
-    // ★ 這就是你目前的 API
-    //
-    // 如果未來重新部署 Apps Script，
-    // 只需要修改這一行。
-    //
-    // =====================================================
+  <div
+    id="resultsArea"
+  ></div>
 
-    const API_URL =
-      "https://script.google.com/macros/s/AKfycbxH5g5d8vlbMjs6XxHK4JN634Kg7LuP7Bnmg-qjRnKKYVNNGDaz1s2a0gJE1RVY3uQ5/exec";
+
+  <div class="footer">
+    COLOR 成績查詢系統
+  </div>
+
+
+</div>
 
 
 
-    // =====================================================
-    // 取得 HTML 元件
-    // =====================================================
+<script>
 
-    const levelSelect =
-      document.getElementById(
-        "level"
+
+// =====================================================
+// Google Apps Script API
+// =====================================================
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbxH5g5d8vlbMjs6XxHK4JN634Kg7LuP7Bnmg-qjRnKKYVNNGDaz1s2a0gJE1RVY3uQ5/exec";
+
+
+
+// =====================================================
+// 元件
+// =====================================================
+
+const levelSelect =
+  document.getElementById(
+    "level"
+  );
+
+
+const classSelect =
+  document.getElementById(
+    "className"
+  );
+
+
+const nameInput =
+  document.getElementById(
+    "name"
+  );
+
+
+const itemSelect =
+  document.getElementById(
+    "item"
+  );
+
+
+const searchButton =
+  document.getElementById(
+    "searchButton"
+  );
+
+
+const status =
+  document.getElementById(
+    "status"
+  );
+
+
+const resultsArea =
+  document.getElementById(
+    "resultsArea"
+  );
+
+
+
+// =====================================================
+// 網站啟動
+// =====================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadLevels();
+
+  }
+);
+
+
+
+// =====================================================
+// ★ 讀取所有等級
+//
+// 不再寫死「養成」
+// =====================================================
+
+async function loadLevels() {
+
+  levelSelect.disabled = true;
+
+
+  levelSelect.innerHTML =
+    "<option>等級載入中...</option>";
+
+
+  try {
+
+    const url =
+      API_URL +
+      "?action=levels";
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          cache: "no-store"
+        }
       );
 
 
-    const classSelect =
-      document.getElementById(
-        "className"
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "等級讀取失敗"
       );
 
-
-    const nameInput =
-      document.getElementById(
-        "name"
-      );
+    }
 
 
-    const itemSelect =
-      document.getElementById(
-        "item"
-      );
+    const levels =
+      await response.json();
 
 
-    const searchButton =
-      document.getElementById(
-        "searchButton"
-      );
+    levelSelect.innerHTML =
+      "";
 
 
-    const status =
-      document.getElementById(
-        "status"
-      );
+    if (
+      !Array.isArray(levels) ||
+      levels.length === 0
+    ) {
+
+      levelSelect.innerHTML =
+        "<option>沒有等級資料</option>";
+
+      return;
+
+    }
 
 
-    const resultsArea =
-      document.getElementById(
-        "resultsArea"
-      );
+    levels.forEach(
+      function(level) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
 
 
+        option.value =
+          level;
 
-    // =====================================================
-    // 網頁啟動
-    // =====================================================
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      function() {
+        option.textContent =
+          level;
 
-        loadClasses();
+
+        levelSelect.appendChild(
+          option
+        );
 
       }
     );
 
 
+    levelSelect.disabled =
+      false;
 
-    // =====================================================
-    // 等級改變
-    // =====================================================
 
-    levelSelect.addEventListener(
-      "change",
-      function() {
+    // 自動載入第一個等級
 
-        classSelect.innerHTML =
-          "<option>班別載入中...</option>";
+    loadClasses();
 
-        classSelect.disabled = true;
+  }
+  catch (error) {
 
-        itemSelect.innerHTML =
-          "<option>請先輸入姓名</option>";
+    console.error(error);
 
-        itemSelect.disabled = true;
 
-        resultsArea.innerHTML = "";
+    levelSelect.innerHTML =
+      "<option>等級載入失敗</option>";
 
-        loadClasses();
 
-      }
+    setStatus(
+      "無法取得等級資料",
+      "error"
     );
 
+  }
 
-
-    // =====================================================
-    // 姓名輸入
-    // =====================================================
-
-    nameInput.addEventListener(
-      "input",
-      function() {
-
-        itemSelect.innerHTML =
-          "<option>請選擇項目</option>";
-
-        itemSelect.disabled = true;
-
-        resultsArea.innerHTML = "";
-
-      }
-    );
+}
 
 
 
-    // =====================================================
-    // 班別改變
-    // =====================================================
+// =====================================================
+// 等級改變
+// =====================================================
 
-    classSelect.addEventListener(
-      "change",
-      function() {
+levelSelect.addEventListener(
+  "change",
+  function() {
 
-        loadItems();
+    classSelect.innerHTML =
+      "<option>班別載入中...</option>";
 
-      }
-    );
-
-
-
-    // =====================================================
-    // 讀取班別
-    // =====================================================
-
-    async function loadClasses() {
-
-      const level =
-        levelSelect.value;
+    classSelect.disabled =
+      true;
 
 
-      classSelect.disabled = true;
+    itemSelect.innerHTML =
+      "<option>請先輸入姓名</option>";
+
+    itemSelect.disabled =
+      true;
+
+
+    resultsArea.innerHTML =
+      "";
+
+
+    loadClasses();
+
+  }
+);
+
+
+
+// =====================================================
+// 讀取班別
+// =====================================================
+
+async function loadClasses() {
+
+  const level =
+    levelSelect.value;
+
+
+  if (
+    !level ||
+    level === "等級載入中..."
+  ) {
+
+    return;
+
+  }
+
+
+  classSelect.disabled =
+    true;
+
+
+  classSelect.innerHTML =
+    "<option>班別載入中...</option>";
+
+
+  try {
+
+    const url =
+      API_URL +
+      "?action=classes" +
+      "&level=" +
+      encodeURIComponent(
+        level
+      );
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "班別讀取失敗"
+      );
+
+    }
+
+
+    const classes =
+      await response.json();
+
+
+    classSelect.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(classes) ||
+      classes.length === 0
+    ) {
 
       classSelect.innerHTML =
-        "<option>班別載入中...</option>";
+        "<option>沒有班別資料</option>";
 
-
-      try {
-
-        const url =
-          API_URL +
-          "?action=classes" +
-          "&level=" +
-          encodeURIComponent(level);
-
-
-        const response =
-          await fetch(
-            url,
-            {
-              cache: "no-store"
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "班別讀取失敗"
-          );
-
-        }
-
-
-        const classes =
-          await response.json();
-
-
-        classSelect.innerHTML =
-          "";
-
-
-        if (
-          !Array.isArray(classes) ||
-          classes.length === 0
-        ) {
-
-          classSelect.innerHTML =
-            "<option>沒有班別資料</option>";
-
-          return;
-
-        }
-
-
-        classes.forEach(
-          function(className) {
-
-            const option =
-              document.createElement(
-                "option"
-              );
-
-            option.value =
-              className;
-
-            option.textContent =
-              className;
-
-            classSelect.appendChild(
-              option
-            );
-
-          }
-        );
-
-
-        classSelect.disabled =
-          false;
-
-
-        loadItems();
-
-      }
-      catch (error) {
-
-        console.error(error);
-
-
-        classSelect.innerHTML =
-          "<option>班別載入失敗</option>";
-
-
-        setStatus(
-          "班別載入失敗，請重新整理",
-          "error"
-        );
-
-      }
+      return;
 
     }
 
 
+    classes.forEach(
+      function(className) {
 
-    // =====================================================
-    // 讀取項目
-    // =====================================================
-
-    async function loadItems() {
-
-      const name =
-        nameInput.value.trim();
+        const option =
+          document.createElement(
+            "option"
+          );
 
 
-      const className =
-        classSelect.value;
+        option.value =
+          className;
 
 
-      if (
-        name === "" ||
-        className === ""
-      ) {
+        option.textContent =
+          className;
 
-        itemSelect.innerHTML =
-          "<option>請先輸入姓名</option>";
 
-        itemSelect.disabled = true;
-
-        return;
+        classSelect.appendChild(
+          option
+        );
 
       }
+    );
 
 
-      itemSelect.disabled = true;
+    classSelect.disabled =
+      false;
+
+
+    loadItems();
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+
+    classSelect.innerHTML =
+      "<option>班別載入失敗</option>";
+
+
+    setStatus(
+      "班別載入失敗",
+      "error"
+    );
+
+  }
+
+}
+
+
+
+// =====================================================
+// 姓名輸入
+// =====================================================
+
+nameInput.addEventListener(
+  "input",
+  function() {
+
+    itemSelect.innerHTML =
+      "<option>請先輸入姓名</option>";
+
+    itemSelect.disabled =
+      true;
+
+    resultsArea.innerHTML =
+      "";
+
+  }
+);
+
+
+
+// =====================================================
+// 班別改變
+// =====================================================
+
+classSelect.addEventListener(
+  "change",
+  function() {
+
+    loadItems();
+
+  }
+);
+
+
+
+// =====================================================
+// 讀取項目
+// =====================================================
+
+async function loadItems() {
+
+  const level =
+    levelSelect.value;
+
+
+  const name =
+    nameInput.value.trim();
+
+
+  const className =
+    classSelect.value;
+
+
+  if (
+    !level ||
+    !name ||
+    !className
+  ) {
+
+    itemSelect.innerHTML =
+      "<option>請先輸入姓名</option>";
+
+    itemSelect.disabled =
+      true;
+
+    return;
+
+  }
+
+
+  itemSelect.disabled =
+    true;
+
+
+  itemSelect.innerHTML =
+    "<option>項目載入中...</option>";
+
+
+  try {
+
+    const url =
+      API_URL +
+      "?action=items" +
+      "&level=" +
+      encodeURIComponent(
+        level
+      ) +
+      "&name=" +
+      encodeURIComponent(
+        name
+      ) +
+      "&className=" +
+      encodeURIComponent(
+        className
+      );
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    const items =
+      await response.json();
+
+
+    itemSelect.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(items) ||
+      items.length === 0
+    ) {
 
       itemSelect.innerHTML =
-        "<option>項目載入中...</option>";
+        "<option>找不到項目</option>";
+
+      return;
+
+    }
 
 
-      try {
+    items.forEach(
+      function(item) {
 
-        const level =
-          levelSelect.value;
-
-
-        const url =
-          API_URL +
-          "?action=items" +
-          "&level=" +
-          encodeURIComponent(level) +
-          "&name=" +
-          encodeURIComponent(name) +
-          "&className=" +
-          encodeURIComponent(className);
-
-
-        const response =
-          await fetch(
-            url,
-            {
-              cache: "no-store"
-            }
+        const option =
+          document.createElement(
+            "option"
           );
 
 
-        if (!response.ok) {
+        option.value =
+          item;
 
-          throw new Error(
-            "項目讀取失敗"
-          );
 
+        option.textContent =
+          item;
+
+
+        itemSelect.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    itemSelect.disabled =
+      false;
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+
+    itemSelect.innerHTML =
+      "<option>項目載入失敗</option>";
+
+  }
+
+}
+
+
+
+// =====================================================
+// 查詢
+// =====================================================
+
+searchButton.addEventListener(
+  "click",
+  searchScores
+);
+
+
+
+async function searchScores() {
+
+  const level =
+    levelSelect.value;
+
+
+  const className =
+    classSelect.value;
+
+
+  const name =
+    nameInput.value.trim();
+
+
+  const item =
+    itemSelect.value;
+
+
+  if (!level) {
+
+    setStatus(
+      "請選擇等級",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (!className) {
+
+    setStatus(
+      "請選擇班別",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (!name) {
+
+    setStatus(
+      "請輸入姓名",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !item ||
+    item === "找不到項目"
+  ) {
+
+    setStatus(
+      "請選擇項目",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  searchButton.disabled =
+    true;
+
+
+  searchButton.textContent =
+    "查詢中...";
+
+
+  setStatus(
+    "正在查詢成績...",
+    "loading"
+  );
+
+
+  resultsArea.innerHTML =
+    "";
+
+
+  try {
+
+    const url =
+      API_URL +
+      "?level=" +
+      encodeURIComponent(
+        level
+      ) +
+      "&name=" +
+      encodeURIComponent(
+        name
+      ) +
+      "&className=" +
+      encodeURIComponent(
+        className
+      ) +
+      "&item=" +
+      encodeURIComponent(
+        item
+      );
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          cache: "no-store"
         }
+      );
 
 
-        const items =
-          await response.json();
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "查詢失敗"
+      );
+
+    }
 
 
-        itemSelect.innerHTML =
-          "";
+    const results =
+      await response.json();
 
 
-        if (
-          !Array.isArray(items) ||
-          items.length === 0
-        ) {
+    if (
+      !Array.isArray(results) ||
+      results.length === 0
+    ) {
 
-          itemSelect.innerHTML =
-            "<option>找不到項目</option>";
-
-          return;
-
-        }
+      setStatus(
+        "查無成績資料",
+        "error"
+      );
 
 
-        items.forEach(
-          function(item) {
+      resultsArea.innerHTML =
+        `
+        <div class="empty">
+          找不到這位學員的成績
+        </div>
+        `;
 
-            const option =
-              document.createElement(
-                "option"
-              );
+      return;
 
-            option.value =
-              item;
+    }
 
-            option.textContent =
-              item;
 
-            itemSelect.appendChild(
-              option
+
+    // ===================================================
+    // 最佳成績
+    //
+    // ★ 只比較 K 欄總秒
+    // ===================================================
+
+    const validScores =
+      results
+        .map(
+          function(result, index) {
+
+            return {
+
+              index:
+                index,
+
+              seconds:
+                parseSeconds(
+                  result.totalSeconds
+                )
+
+            };
+
+          }
+        )
+        .filter(
+          function(data) {
+
+            return Number.isFinite(
+              data.seconds
             );
 
           }
         );
 
 
-        itemSelect.disabled =
-          false;
-
-      }
-      catch (error) {
-
-        console.error(error);
+    let bestIndex =
+      -1;
 
 
-        itemSelect.innerHTML =
-          "<option>項目載入失敗</option>";
+    if (
+      validScores.length >= 2
+    ) {
 
-      }
-
-    }
-
-
-
-    // =====================================================
-    // 查詢按鈕
-    // =====================================================
-
-    searchButton.addEventListener(
-      "click",
-      searchScores
-    );
+      let best =
+        validScores[0];
 
 
+      validScores.forEach(
+        function(current) {
 
-    // =====================================================
-    // Enter 查詢
-    // =====================================================
+          if (
+            current.seconds <
+            best.seconds
+          ) {
 
-    nameInput.addEventListener(
-      "keydown",
-      function(event) {
+            best =
+              current;
 
-        if (
-          event.key === "Enter"
-        ) {
-
-          searchScores();
+          }
 
         }
-
-      }
-    );
-
-
-
-    // =====================================================
-    // 查詢成績
-    // =====================================================
-
-    async function searchScores() {
-
-      const level =
-        levelSelect.value;
-
-
-      const className =
-        classSelect.value;
-
-
-      const name =
-        nameInput.value.trim();
-
-
-      const item =
-        itemSelect.value;
-
-
-      if (
-        !className
-      ) {
-
-        setStatus(
-          "請選擇班別",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !name
-      ) {
-
-        setStatus(
-          "請輸入姓名",
-          "error"
-        );
-
-        nameInput.focus();
-
-        return;
-
-      }
-
-
-      if (
-        !item ||
-        item === "找不到項目"
-      ) {
-
-        setStatus(
-          "請選擇項目",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-
-      // ---------------------------------------------------
-      // 查詢中
-      // ---------------------------------------------------
-
-      searchButton.disabled =
-        true;
-
-      searchButton.textContent =
-        "查詢中...";
-
-
-      setStatus(
-        "正在查詢成績...",
-        "loading"
       );
 
 
-      resultsArea.innerHTML =
-        "";
-
-
-
-      try {
-
-        const url =
-          API_URL +
-          "?level=" +
-          encodeURIComponent(level) +
-          "&name=" +
-          encodeURIComponent(name) +
-          "&className=" +
-          encodeURIComponent(className) +
-          "&item=" +
-          encodeURIComponent(item);
-
-
-        const response =
-          await fetch(
-            url,
-            {
-              cache: "no-store"
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "查詢失敗"
-          );
-
-        }
-
-
-        const results =
-          await response.json();
-
-
-        if (
-          !Array.isArray(results)
-        ) {
-
-          throw new Error(
-            "資料格式錯誤"
-          );
-
-        }
-
-
-        if (
-          results.length === 0
-        ) {
-
-          setStatus(
-            "查無成績資料",
-            "error"
-          );
-
-          resultsArea.innerHTML =
-            `
-            <div class="empty">
-              找不到這位學員的成績
-            </div>
-            `;
-
-          return;
-
-        }
-
-
-
-        // -------------------------------------------------
-        // 找最佳成績
-        //
-        // ★ 只比較 K 欄 totalSeconds
-        //
-        // ★ 有效的總秒數 >= 2 筆
-        // 才顯示最佳成績
-        // -------------------------------------------------
-
-        const validScores =
-          results
-            .map(
-              function(result, index) {
-
-                return {
-                  result: result,
-                  index: index,
-                  seconds:
-                    parseSeconds(
-                      result.totalSeconds
-                    )
-                };
-
-              }
-            )
-            .filter(
-              function(x) {
-
-                return (
-                  Number.isFinite(
-                    x.seconds
-                  )
-                );
-
-              }
-            );
-
-
-
-        let bestIndex =
-          -1;
-
-
-        // -------------------------------------------------
-        // 至少 2 筆有效成績
-        // 才標示最佳
-        // -------------------------------------------------
-
-        if (
-          validScores.length >= 2
-        ) {
-
-          let best =
-            validScores[0];
-
-
-          validScores.forEach(
-            function(current) {
-
-              if (
-                current.seconds <
-                best.seconds
-              ) {
-
-                best =
-                  current;
-
-              }
-
-            }
-          );
-
-
-          bestIndex =
-            best.index;
-
-        }
-
-
-
-        // -------------------------------------------------
-        // 顯示結果
-        // -------------------------------------------------
-
-        renderResults(
-          results,
-          bestIndex
-        );
-
-
-        setStatus(
-          "查詢完成",
-          "success"
-        );
-
-
-      }
-      catch (error) {
-
-        console.error(error);
-
-
-        setStatus(
-          "查詢失敗，請稍後再試",
-          "error"
-        );
-
-
-        resultsArea.innerHTML =
-          `
-          <div class="empty">
-            目前無法取得成績資料
-          </div>
-          `;
-
-      }
-      finally {
-
-        searchButton.disabled =
-          false;
-
-        searchButton.textContent =
-          "查詢成績";
-
-      }
+      bestIndex =
+        best.index;
 
     }
 
 
 
-    // =====================================================
-    // 顯示查詢結果
-    // =====================================================
-
-    function renderResults(
+    renderResults(
       results,
       bestIndex
-    ) {
+    );
 
-      let html =
+
+    setStatus(
+      "查詢完成",
+      "success"
+    );
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+
+    setStatus(
+      "查詢失敗，請稍後再試",
+      "error"
+    );
+
+  }
+  finally {
+
+    searchButton.disabled =
+      false;
+
+    searchButton.textContent =
+      "查詢成績";
+
+  }
+
+}
+
+
+
+// =====================================================
+// 顯示結果
+// =====================================================
+
+function renderResults(
+  results,
+  bestIndex
+) {
+
+  let html =
+    `
+    <h2 class="result-title">
+      查詢結果
+    </h2>
+    `;
+
+
+  results.forEach(
+    function(result, index) {
+
+      const isBest =
+        index === bestIndex;
+
+
+      html +=
         `
-        <h2 class="result-title">
-          查詢結果
-        </h2>
-        `;
+
+        <div
+          class="result-card ${
+            isBest
+            ?
+            "best"
+            :
+            ""
+          }"
+        >
+
+          ${
+            isBest
+            ?
+            `
+            <div class="best-badge">
+              🏆 最佳成績
+            </div>
+            `
+            :
+            ""
+          }
 
 
+          <div class="result-top">
 
-      results.forEach(
-        function(result, index) {
-
-          const isBest =
-            index === bestIndex;
-
-
-          const lap1 =
-            displayLap(
-              result.lap1
-            );
-
-
-          const lap2 =
-            displayLap(
-              result.lap2
-            );
-
-
-          const lap3 =
-            displayLap(
-              result.lap3
-            );
-
-
-          const lap4 =
-            displayLap(
-              result.lap4
-            );
-
-
-          const lap5 =
-            displayLap(
-              result.lap5
-            );
-
-
-          // ------------------------------------------------
-          // K 欄總秒
-          //
-          // 直接顯示試算表 K 欄
-          // ------------------------------------------------
-
-          const total =
-            formatTotalSeconds(
-              result.totalSeconds
-            );
-
-
-
-          html += `
-
-            <div
-              class="result-card ${
-                isBest ? "best" : ""
-              }"
-            >
+            <div class="result-item">
 
               ${
-                isBest
-                ?
-                `
-                <div class="best-badge">
-                  🏆 最佳成績
-                </div>
-                `
-                :
-                ""
+                escapeHtml(
+                  result.item || ""
+                )
               }
-
-
-              <div class="result-top">
-
-                <div class="result-item">
-                  ${escapeHtml(
-                    result.item || ""
-                  )}
-                </div>
-
-
-                <div class="result-date">
-                  ${escapeHtml(
-                    result.testDate || ""
-                  )}
-                </div>
-
-              </div>
-
-
-              <div class="coach">
-                教練：
-                ${escapeHtml(
-                  result.coach || "—"
-                )}
-              </div>
-
-
-              <div class="lap-title">
-                圈數成績
-              </div>
-
-
-              <div class="laps">
-
-                ${createLapHtml(
-                  "圈1",
-                  lap1
-                )}
-
-                ${createLapHtml(
-                  "圈2",
-                  lap2
-                )}
-
-                ${createLapHtml(
-                  "圈3",
-                  lap3
-                )}
-
-                ${createLapHtml(
-                  "圈4",
-                  lap4
-                )}
-
-                ${createLapHtml(
-                  "圈5",
-                  lap5
-                )}
-
-              </div>
-
-
-              <div class="total-box">
-
-                <span class="total-label">
-                  總秒
-                </span>
-
-                <span class="total-value">
-                  ${escapeHtml(
-                    total
-                  )}
-                </span>
-
-              </div>
 
             </div>
 
-          `;
 
-        }
-      );
+            <div class="result-date">
+
+              ${
+                escapeHtml(
+                  result.testDate || ""
+                )
+              }
+
+            </div>
+
+          </div>
 
 
-      resultsArea.innerHTML =
-        html;
+          <div class="coach">
 
-    }
-
-
-
-    // =====================================================
-    // 建立單圈 HTML
-    // =====================================================
-
-    function createLapHtml(
-      label,
-      value
-    ) {
-
-      return `
-
-        <div class="lap">
-
-          <span class="lap-label">
-            ${label}
-          </span>
-
-          <span class="lap-value">
+            教練：
             ${
-              value === "—"
-              ?
-              `<span class="dash">—</span>`
-              :
-              escapeHtml(value)
+              escapeHtml(
+                result.coach || "—"
+              )
             }
-          </span>
+
+          </div>
+
+
+          <div class="lap-title">
+            圈數成績
+          </div>
+
+
+          <div class="laps">
+
+            ${
+              lapHtml(
+                "圈1",
+                result.lap1
+              )
+            }
+
+            ${
+              lapHtml(
+                "圈2",
+                result.lap2
+              )
+            }
+
+            ${
+              lapHtml(
+                "圈3",
+                result.lap3
+              )
+            }
+
+            ${
+              lapHtml(
+                "圈4",
+                result.lap4
+              )
+            }
+
+            ${
+              lapHtml(
+                "圈5",
+                result.lap5
+              )
+            }
+
+          </div>
+
+
+          <div class="total-box">
+
+            <span class="total-label">
+              總秒
+            </span>
+
+
+            <span class="total-value">
+
+              ${
+                formatTotalSeconds(
+                  result.totalSeconds
+                )
+              }
+
+            </span>
+
+          </div>
+
 
         </div>
 
-      `;
+        `;
 
     }
+  );
+
+
+  resultsArea.innerHTML =
+    html;
+
+}
 
 
 
-    // =====================================================
-    // 圈數顯示
-    // =====================================================
+// =====================================================
+// 圈數
+// =====================================================
 
-    function displayLap(value) {
+function lapHtml(
+  label,
+  value
+) {
 
-      if (
-        value === null ||
-        value === undefined ||
-        value === ""
-      ) {
-
-        return "—";
-
-      }
+  const empty =
+    value === "" ||
+    value === null ||
+    value === undefined;
 
 
-      return String(value);
+  return `
 
-    }
+    <div class="lap">
 
+      <span class="lap-label">
+        ${label}
+      </span>
 
+      <span class="lap-value">
 
-    // =====================================================
-    // K 欄總秒解析
-    // =====================================================
-    //
-    // 支援：
-    //
-    // 90.29
-    // "90.29"
-    // 1:30.29
-    //
-    // =====================================================
-
-    function parseSeconds(value) {
-
-      if (
-        value === null ||
-        value === undefined ||
-        value === ""
-      ) {
-
-        return NaN;
-
-      }
-
-
-      // -----------------------------------------------
-      // 數字
-      // -----------------------------------------------
-
-      if (
-        typeof value === "number"
-      ) {
-
-        return value;
-
-      }
-
-
-      const text =
-        String(value)
-          .trim();
-
-
-      if (
-        text === ""
-      ) {
-
-        return NaN;
-
-      }
-
-
-
-      // -----------------------------------------------
-      // 分:秒
-      // -----------------------------------------------
-
-      if (
-        text.includes(":")
-      ) {
-
-        const parts =
-          text.split(":");
-
-
-        if (
-          parts.length === 2
-        ) {
-
-          const minutes =
-            parseFloat(
-              parts[0]
-            );
-
-
-          const seconds =
-            parseFloat(
-              parts[1]
-            );
-
-
-          if (
-            Number.isFinite(
-              minutes
-            ) &&
-            Number.isFinite(
-              seconds
-            )
-          ) {
-
-            return (
-              minutes * 60 +
-              seconds
-            );
-
-          }
-
+        ${
+          empty
+          ?
+          '<span class="dash">—</span>'
+          :
+          escapeHtml(value)
         }
 
-      }
+      </span>
+
+    </div>
+
+  `;
+
+}
 
 
 
-      // -----------------------------------------------
-      // 一般數字
-      // -----------------------------------------------
+// =====================================================
+// 秒數解析
+// =====================================================
 
-      const number =
-        parseFloat(text);
+function parseSeconds(
+  value
+) {
 
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
 
-      if (
-        Number.isFinite(number)
-      ) {
+    return NaN;
 
-        return number;
-
-      }
-
-
-      return NaN;
-
-    }
+  }
 
 
+  if (
+    typeof value === "number"
+  ) {
 
-    // =====================================================
-    // 總秒格式化
-    // =====================================================
-    //
-    // 90.29
-    // →
-    // 1:30.29
-    //
-    // 45
-    // →
-    // 45.00
-    //
-    // =====================================================
+    return value;
 
-    function formatTotalSeconds(
-      value
+  }
+
+
+  const text =
+    String(value)
+      .trim();
+
+
+  if (
+    text.includes(":")
+  ) {
+
+    const parts =
+      text.split(":");
+
+
+    if (
+      parts.length === 2
     ) {
 
-      if (
-        value === null ||
-        value === undefined ||
-        value === ""
-      ) {
-
-        return "—";
-
-      }
+      const minutes =
+        parseFloat(
+          parts[0]
+        );
 
 
       const seconds =
-        parseSeconds(value);
+        parseFloat(
+          parts[1]
+        );
 
 
       if (
-        !Number.isFinite(
+        Number.isFinite(
+          minutes
+        ) &&
+        Number.isFinite(
           seconds
         )
       ) {
 
-        return String(value);
-
-      }
-
-
-      const minutes =
-        Math.floor(
-          seconds / 60
-        );
-
-
-      const remain =
-        seconds -
-        minutes * 60;
-
-
-      // -------------------------------------------------
-      // 有分鐘
-      // -------------------------------------------------
-
-      if (
-        minutes > 0
-      ) {
-
         return (
-          minutes +
-          ":" +
-          remain
-            .toFixed(2)
-            .padStart(
-              5,
-              "0"
-            )
+          minutes * 60 +
+          seconds
         );
 
       }
 
-
-      // -------------------------------------------------
-      // 沒有分鐘
-      // -------------------------------------------------
-
-      return remain.toFixed(2);
-
     }
 
+  }
 
 
-    // =====================================================
-    // HTML 安全處理
-    // =====================================================
+  const number =
+    parseFloat(text);
 
-    function escapeHtml(
+
+  return Number.isFinite(
+    number
+  )
+  ?
+  number
+  :
+  NaN;
+
+}
+
+
+
+// =====================================================
+// 顯示總秒
+// =====================================================
+
+function formatTotalSeconds(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+
+    return "—";
+
+  }
+
+
+  const seconds =
+    parseSeconds(value);
+
+
+  if (
+    !Number.isFinite(
+      seconds
+    )
+  ) {
+
+    return escapeHtml(
       value
-    ) {
+    );
 
-      return String(
-        value === null ||
-        value === undefined
-        ?
-        ""
-        :
-        value
-      )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
-    }
+  }
 
 
-
-    // =====================================================
-    // 狀態訊息
-    // =====================================================
-
-    function setStatus(
-      message,
-      type
-    ) {
-
-      status.textContent =
-        message;
+  const minutes =
+    Math.floor(
+      seconds / 60
+    );
 
 
-      status.className =
-        "status " +
-        (
-          type || ""
-        );
-
-    }
+  const remain =
+    seconds -
+    minutes * 60;
 
 
-  </script>
+  if (
+    minutes > 0
+  ) {
+
+    return (
+      minutes +
+      ":" +
+      remain
+        .toFixed(2)
+        .padStart(
+          5,
+          "0"
+        )
+    );
+
+  }
+
+
+  return remain.toFixed(2);
+
+}
+
+
+
+// =====================================================
+// HTML 安全
+// =====================================================
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value === null ||
+    value === undefined
+    ?
+    ""
+    :
+    value
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+
+// =====================================================
+// 狀態
+// =====================================================
+
+function setStatus(
+  message,
+  type
+) {
+
+  status.textContent =
+    message;
+
+
+  status.className =
+    "status " +
+    (
+      type || ""
+    );
+
+}
+
+
+</script>
 
 </body>
 
