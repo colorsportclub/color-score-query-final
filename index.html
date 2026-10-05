@@ -64,7 +64,7 @@ body {
 
 
 /* =====================================================
-   Logo
+   COLOR Logo
 ===================================================== */
 
 .logo-area {
@@ -103,7 +103,10 @@ body {
 
   font-weight: 900;
 
-  margin: 8px 0 0;
+  margin:
+    8px
+    0
+    0;
 
 }
 
@@ -207,6 +210,15 @@ select:focus {
       0,
       0.06
     );
+
+}
+
+
+select:disabled {
+
+  background: #f1f2f4;
+
+  color: #999;
 
 }
 
@@ -567,7 +579,9 @@ select:focus {
 
   border-radius: 18px;
 
-  padding: 35px 20px;
+  padding:
+    35px
+    20px;
 
   color: #888;
 
@@ -592,7 +606,7 @@ select:focus {
 
 
 /* =====================================================
-   手機
+   手機版
 ===================================================== */
 
 @media (
@@ -688,7 +702,6 @@ select:focus {
 
 }
 
-
 </style>
 
 </head>
@@ -734,7 +747,9 @@ select:focus {
   <div class="search-card">
 
 
-    <!-- 等級 -->
+    <!-- =================================================
+         等級
+    ================================================= -->
 
     <div class="field">
 
@@ -743,12 +758,15 @@ select:focus {
       </label>
 
 
-      <select
-        id="level"
-      >
+      <select id="level">
 
-        <option>
-          等級載入中...
+        <!-- ★ 不自動選擇 -->
+
+        <option
+          value=""
+          selected
+        >
+          請選擇等級
         </option>
 
       </select>
@@ -757,7 +775,9 @@ select:focus {
 
 
 
-    <!-- 班別 -->
+    <!-- =================================================
+         班別
+    ================================================= -->
 
     <div class="field">
 
@@ -771,8 +791,13 @@ select:focus {
         disabled
       >
 
-        <option>
-          班別載入中...
+        <!-- ★ 不自動選擇 -->
+
+        <option
+          value=""
+          selected
+        >
+          請先選擇等級
         </option>
 
       </select>
@@ -781,7 +806,9 @@ select:focus {
 
 
 
-    <!-- 姓名 -->
+    <!-- =================================================
+         姓名
+    ================================================= -->
 
     <div class="field">
 
@@ -801,7 +828,9 @@ select:focus {
 
 
 
-    <!-- 項目 -->
+    <!-- =================================================
+         項目
+    ================================================= -->
 
     <div class="field">
 
@@ -815,8 +844,13 @@ select:focus {
         disabled
       >
 
-        <option>
-          請先輸入姓名
+        <!-- ★ 不自動選擇 -->
+
+        <option
+          value=""
+          selected
+        >
+          請先選擇班別及輸入姓名
         </option>
 
       </select>
@@ -824,6 +858,10 @@ select:focus {
     </div>
 
 
+
+    <!-- =================================================
+         查詢
+    ================================================= -->
 
     <button
       id="searchButton"
@@ -870,7 +908,7 @@ const API_URL =
 
 
 // =====================================================
-// 元件
+// 取得網頁元件
 // =====================================================
 
 const levelSelect =
@@ -918,6 +956,10 @@ const resultsArea =
 
 // =====================================================
 // 網站啟動
+//
+// ★ 只載入等級
+// ★ 不會自動選第一個等級
+// ★ 不會自動載入班別
 // =====================================================
 
 document.addEventListener(
@@ -932,18 +974,24 @@ document.addEventListener(
 
 
 // =====================================================
-// ★ 讀取所有等級
-//
-// 不再寫死「養成」
+// 讀取所有等級
 // =====================================================
 
 async function loadLevels() {
 
-  levelSelect.disabled = true;
+  levelSelect.disabled =
+    true;
 
 
   levelSelect.innerHTML =
-    "<option>等級載入中...</option>";
+    `
+    <option
+      value=""
+      selected
+    >
+      等級載入中...
+    </option>
+    `;
 
 
   try {
@@ -977,8 +1025,19 @@ async function loadLevels() {
       await response.json();
 
 
+    // ---------------------------------------------------
+    // ★ 重新建立選單
+    // ---------------------------------------------------
+
     levelSelect.innerHTML =
-      "";
+      `
+      <option
+        value=""
+        selected
+      >
+        請選擇等級
+      </option>
+      `;
 
 
     if (
@@ -987,7 +1046,14 @@ async function loadLevels() {
     ) {
 
       levelSelect.innerHTML =
-        "<option>沒有等級資料</option>";
+        `
+        <option
+          value=""
+          selected
+        >
+          沒有等級資料
+        </option>
+        `;
 
       return;
 
@@ -1019,13 +1085,18 @@ async function loadLevels() {
     );
 
 
+    // ---------------------------------------------------
+    // ★ 只解除鎖定
+    // ★ 絕對不呼叫 loadClasses()
+    // ---------------------------------------------------
+
     levelSelect.disabled =
       false;
 
 
-    // 自動載入第一個等級
+    resetClassSelect();
 
-    loadClasses();
+    resetItemSelect();
 
   }
   catch (error) {
@@ -1034,7 +1105,14 @@ async function loadLevels() {
 
 
     levelSelect.innerHTML =
-      "<option>等級載入失敗</option>";
+      `
+      <option
+        value=""
+        selected
+      >
+        等級載入失敗
+      </option>
+      `;
 
 
     setStatus(
@@ -1050,34 +1128,99 @@ async function loadLevels() {
 
 // =====================================================
 // 等級改變
+//
+// ★ 只有使用者自己選擇等級
+// ★ 才會載入班別
 // =====================================================
 
 levelSelect.addEventListener(
   "change",
   function() {
 
-    classSelect.innerHTML =
-      "<option>班別載入中...</option>";
-
-    classSelect.disabled =
-      true;
-
-
-    itemSelect.innerHTML =
-      "<option>請先輸入姓名</option>";
-
-    itemSelect.disabled =
-      true;
-
-
     resultsArea.innerHTML =
       "";
 
+
+    setStatus(
+      "",
+      ""
+    );
+
+
+    resetItemSelect();
+
+
+    // -----------------------------------------------
+    // 沒選等級
+    // -----------------------------------------------
+
+    if (
+      levelSelect.value === ""
+    ) {
+
+      resetClassSelect();
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // 有選等級
+    // -----------------------------------------------
 
     loadClasses();
 
   }
 );
+
+
+
+// =====================================================
+// 重設班別
+// =====================================================
+
+function resetClassSelect() {
+
+  classSelect.disabled =
+    true;
+
+
+  classSelect.innerHTML =
+    `
+    <option
+      value=""
+      selected
+    >
+      請先選擇等級
+    </option>
+    `;
+
+}
+
+
+
+// =====================================================
+// 重設項目
+// =====================================================
+
+function resetItemSelect() {
+
+  itemSelect.disabled =
+    true;
+
+
+  itemSelect.innerHTML =
+    `
+    <option
+      value=""
+      selected
+    >
+      請先選擇班別及輸入姓名
+    </option>
+    `;
+
+}
 
 
 
@@ -1092,9 +1235,10 @@ async function loadClasses() {
 
 
   if (
-    !level ||
-    level === "等級載入中..."
+    !level
   ) {
+
+    resetClassSelect();
 
     return;
 
@@ -1106,7 +1250,14 @@ async function loadClasses() {
 
 
   classSelect.innerHTML =
-    "<option>班別載入中...</option>";
+    `
+    <option
+      value=""
+      selected
+    >
+      班別載入中...
+    </option>
+    `;
 
 
   try {
@@ -1144,8 +1295,19 @@ async function loadClasses() {
       await response.json();
 
 
+    // ---------------------------------------------------
+    // ★ 永遠先放「請選擇班別」
+    // ---------------------------------------------------
+
     classSelect.innerHTML =
-      "";
+      `
+      <option
+        value=""
+        selected
+      >
+        請選擇班別
+      </option>
+      `;
 
 
     if (
@@ -1154,7 +1316,14 @@ async function loadClasses() {
     ) {
 
       classSelect.innerHTML =
-        "<option>沒有班別資料</option>";
+        `
+        <option
+          value=""
+          selected
+        >
+          沒有班別資料
+        </option>
+        `;
 
       return;
 
@@ -1190,7 +1359,9 @@ async function loadClasses() {
       false;
 
 
-    loadItems();
+    // ★ 不自動選班別
+
+    resetItemSelect();
 
   }
   catch (error) {
@@ -1199,7 +1370,14 @@ async function loadClasses() {
 
 
     classSelect.innerHTML =
-      "<option>班別載入失敗</option>";
+      `
+      <option
+        value=""
+        selected
+      >
+        班別載入失敗
+      </option>
+      `;
 
 
     setStatus(
@@ -1214,28 +1392,6 @@ async function loadClasses() {
 
 
 // =====================================================
-// 姓名輸入
-// =====================================================
-
-nameInput.addEventListener(
-  "input",
-  function() {
-
-    itemSelect.innerHTML =
-      "<option>請先輸入姓名</option>";
-
-    itemSelect.disabled =
-      true;
-
-    resultsArea.innerHTML =
-      "";
-
-  }
-);
-
-
-
-// =====================================================
 // 班別改變
 // =====================================================
 
@@ -1243,7 +1399,68 @@ classSelect.addEventListener(
   "change",
   function() {
 
+    resultsArea.innerHTML =
+      "";
+
+
+    setStatus(
+      "",
+      ""
+    );
+
+
+    resetItemSelect();
+
+
+    if (
+      classSelect.value === ""
+    ) {
+
+      return;
+
+    }
+
+
     loadItems();
+
+  }
+);
+
+
+
+// =====================================================
+// 姓名輸入
+// =====================================================
+
+nameInput.addEventListener(
+  "input",
+  function() {
+
+    resetItemSelect();
+
+
+    resultsArea.innerHTML =
+      "";
+
+
+    setStatus(
+      "",
+      ""
+    );
+
+
+    // ---------------------------------------------------
+    // 只有已選班別 + 有姓名才查詢項目
+    // ---------------------------------------------------
+
+    if (
+      classSelect.value !== "" &&
+      nameInput.value.trim() !== ""
+    ) {
+
+      loadItems();
+
+    }
 
   }
 );
@@ -1274,11 +1491,7 @@ async function loadItems() {
     !className
   ) {
 
-    itemSelect.innerHTML =
-      "<option>請先輸入姓名</option>";
-
-    itemSelect.disabled =
-      true;
+    resetItemSelect();
 
     return;
 
@@ -1290,7 +1503,14 @@ async function loadItems() {
 
 
   itemSelect.innerHTML =
-    "<option>項目載入中...</option>";
+    `
+    <option
+      value=""
+      selected
+    >
+      項目載入中...
+    </option>
+    `;
 
 
   try {
@@ -1321,12 +1541,34 @@ async function loadItems() {
       );
 
 
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "項目讀取失敗"
+      );
+
+    }
+
+
     const items =
       await response.json();
 
 
+    // ---------------------------------------------------
+    // ★ 永遠先放提示
+    // ---------------------------------------------------
+
     itemSelect.innerHTML =
-      "";
+      `
+      <option
+        value=""
+        selected
+      >
+        請選擇項目
+      </option>
+      `;
 
 
     if (
@@ -1335,7 +1577,14 @@ async function loadItems() {
     ) {
 
       itemSelect.innerHTML =
-        "<option>找不到項目</option>";
+        `
+        <option
+          value=""
+          selected
+        >
+          找不到項目
+        </option>
+        `;
 
       return;
 
@@ -1370,6 +1619,9 @@ async function loadItems() {
     itemSelect.disabled =
       false;
 
+
+    // ★ 不自動選項目
+
   }
   catch (error) {
 
@@ -1377,7 +1629,14 @@ async function loadItems() {
 
 
     itemSelect.innerHTML =
-      "<option>項目載入失敗</option>";
+      `
+      <option
+        value=""
+        selected
+      >
+        項目載入失敗
+      </option>
+      `;
 
   }
 
@@ -1386,7 +1645,7 @@ async function loadItems() {
 
 
 // =====================================================
-// 查詢
+// 查詢按鈕
 // =====================================================
 
 searchButton.addEventListener(
@@ -1395,6 +1654,10 @@ searchButton.addEventListener(
 );
 
 
+
+// =====================================================
+// 查詢成績
+// =====================================================
 
 async function searchScores() {
 
@@ -1414,7 +1677,14 @@ async function searchScores() {
     itemSelect.value;
 
 
-  if (!level) {
+
+  // ---------------------------------------------------
+  // 驗證
+  // ---------------------------------------------------
+
+  if (
+    !level
+  ) {
 
     setStatus(
       "請選擇等級",
@@ -1426,7 +1696,9 @@ async function searchScores() {
   }
 
 
-  if (!className) {
+  if (
+    !className
+  ) {
 
     setStatus(
       "請選擇班別",
@@ -1438,7 +1710,9 @@ async function searchScores() {
   }
 
 
-  if (!name) {
+  if (
+    !name
+  ) {
 
     setStatus(
       "請輸入姓名",
@@ -1451,8 +1725,7 @@ async function searchScores() {
 
 
   if (
-    !item ||
-    item === "找不到項目"
+    !item
   ) {
 
     setStatus(
@@ -1463,6 +1736,7 @@ async function searchScores() {
     return;
 
   }
+
 
 
   searchButton.disabled =
@@ -1481,6 +1755,7 @@ async function searchScores() {
 
   resultsArea.innerHTML =
     "";
+
 
 
   try {
@@ -1529,6 +1804,7 @@ async function searchScores() {
       await response.json();
 
 
+
     if (
       !Array.isArray(results) ||
       results.length === 0
@@ -1553,16 +1829,20 @@ async function searchScores() {
 
 
 
-    // ===================================================
+    // =================================================
     // 最佳成績
     //
-    // ★ 只比較 K 欄總秒
-    // ===================================================
+    // ★ 只看 K 欄總秒
+    // ★ 至少兩筆資料才標示最佳
+    // =================================================
 
     const validScores =
       results
         .map(
-          function(result, index) {
+          function(
+            result,
+            index
+          ) {
 
             return {
 
@@ -1653,6 +1933,7 @@ async function searchScores() {
     searchButton.disabled =
       false;
 
+
     searchButton.textContent =
       "查詢成績";
 
@@ -1680,7 +1961,10 @@ function renderResults(
 
 
   results.forEach(
-    function(result, index) {
+    function(
+      result,
+      index
+    ) {
 
       const isBest =
         index === bestIndex;
@@ -1831,7 +2115,7 @@ function renderResults(
 
 
 // =====================================================
-// 圈數
+// 圈數 HTML
 // =====================================================
 
 function lapHtml(
@@ -1952,7 +2236,9 @@ function parseSeconds(
 
 
   const number =
-    parseFloat(text);
+    parseFloat(
+      text
+    );
 
 
   return Number.isFinite(
@@ -1969,6 +2255,8 @@ function parseSeconds(
 
 // =====================================================
 // 顯示總秒
+//
+// ★ 完全使用 K 欄資料
 // =====================================================
 
 function formatTotalSeconds(
@@ -1987,7 +2275,9 @@ function formatTotalSeconds(
 
 
   const seconds =
-    parseSeconds(value);
+    parseSeconds(
+      value
+    );
 
 
   if (
@@ -2039,7 +2329,7 @@ function formatTotalSeconds(
 
 
 // =====================================================
-// HTML 安全
+// HTML 安全處理
 // =====================================================
 
 function escapeHtml(
@@ -2080,7 +2370,7 @@ function escapeHtml(
 
 
 // =====================================================
-// 狀態
+// 狀態文字
 // =====================================================
 
 function setStatus(
@@ -2102,6 +2392,7 @@ function setStatus(
 
 
 </script>
+
 
 </body>
 
