@@ -44,12 +44,8 @@ body {
     Arial,
     sans-serif;
 
-  background:
-    linear-gradient(
-      180deg,
-      #f5f6f8 0%,
-      #ffffff 100%
-    );
+  /* ★ 純白背景 */
+  background: #ffffff;
 
   color: #222;
 
@@ -73,6 +69,9 @@ body {
     20px
     50px;
 
+  /* ★ 確保內容區也是白色 */
+  background: #ffffff;
+
 }
 
 
@@ -85,6 +84,9 @@ body {
   text-align: center;
 
   margin-bottom: 8px;
+
+  /* ★ Logo 背景與網站完全一致 */
+  background: #ffffff;
 
 }
 
@@ -150,7 +152,7 @@ body {
 
 .search-card {
 
-  background: #fff;
+  background: #ffffff;
 
   padding: 28px;
 
@@ -209,7 +211,7 @@ select {
     0
     16px;
 
-  background: #fff;
+  background: #ffffff;
 
   color: #222;
 
@@ -266,7 +268,7 @@ select:disabled {
 
   background: #111;
 
-  color: #fff;
+  color: #ffffff;
 
   font-size: 17px;
 
@@ -277,6 +279,13 @@ select:disabled {
   transition:
     opacity 0.2s ease,
     transform 0.1s ease;
+
+}
+
+
+.search-button:hover {
+
+  opacity: 0.9;
 
 }
 
@@ -363,7 +372,7 @@ select:disabled {
 
 .result-card {
 
-  background: #fff;
+  background: #ffffff;
 
   border-radius: 20px;
 
@@ -406,7 +415,7 @@ select:disabled {
 
   background: #111;
 
-  color: #fff;
+  color: #ffffff;
 
   border-radius: 999px;
 
@@ -580,7 +589,7 @@ select:disabled {
 
   background: #111;
 
-  color: #fff;
+  color: #ffffff;
 
   border-radius: 13px;
 
@@ -601,7 +610,7 @@ select:disabled {
 
 .total-label {
 
-  color: #ddd;
+  color: #dddddd;
 
   font-size: 13px;
 
@@ -636,7 +645,7 @@ select:disabled {
 
   text-align: center;
 
-  background: #fff;
+  background: #ffffff;
 
   border-radius: 18px;
 
@@ -666,7 +675,7 @@ select:disabled {
 
   text-align: center;
 
-  color: #aaa;
+  color: #aaaaaa;
 
   font-size: 13px;
 
@@ -689,6 +698,8 @@ select:disabled {
       20px
       14px
       35px;
+
+    background: #ffffff;
 
   }
 
@@ -1091,11 +1102,6 @@ const resultsArea =
 
 // =====================================================
 // 網站啟動
-//
-// ★ 只載入等級
-// ★ 不自動選第一個等級
-// ★ 不自動選第一個班別
-// ★ 不自動選第一個項目
 // =====================================================
 
 document.addEventListener(
@@ -1785,11 +1791,6 @@ async function searchScores() {
     itemSelect.value;
 
 
-
-  // ---------------------------------------------------
-  // 檢查等級
-  // ---------------------------------------------------
-
   if (
     !level
   ) {
@@ -1803,10 +1804,6 @@ async function searchScores() {
 
   }
 
-
-  // ---------------------------------------------------
-  // 檢查班別
-  // ---------------------------------------------------
 
   if (
     !className
@@ -1822,10 +1819,6 @@ async function searchScores() {
   }
 
 
-  // ---------------------------------------------------
-  // 檢查姓名
-  // ---------------------------------------------------
-
   if (
     !name
   ) {
@@ -1839,10 +1832,6 @@ async function searchScores() {
 
   }
 
-
-  // ---------------------------------------------------
-  // 檢查項目
-  // ---------------------------------------------------
 
   if (
     !item
@@ -1988,8 +1977,6 @@ async function searchScores() {
       -1;
 
 
-    // 至少兩筆才標最佳
-
     if (
       validScores.length >= 2
     ) {
@@ -2062,9 +2049,11 @@ async function searchScores() {
 // =====================================================
 // 顯示結果
 //
-// ★ F～J 全空白 → 不顯示圈數
-// ★ 有資料 → 只顯示有資料的圈數
-// ★ K → 總秒
+// F～J：圈1～圈5
+// K：總秒
+//
+// ★ 只顯示有輸入的圈數
+// ★ 五圈全部空白 → 隱藏圈數區塊
 // =====================================================
 
 function renderResults(
@@ -2089,10 +2078,6 @@ function renderResults(
       const isBest =
         index === bestIndex;
 
-
-      // =================================================
-      // F～J
-      // =================================================
 
       const laps = [
 
@@ -2125,7 +2110,7 @@ function renderResults(
 
 
       // =================================================
-      // 只保留有資料的圈數
+      // 只留下真正有輸入的圈數
       // =================================================
 
       const enteredLaps =
@@ -2139,10 +2124,6 @@ function renderResults(
           }
         );
 
-
-      // =================================================
-      // 建立圈數 HTML
-      // =================================================
 
       let lapsHtml =
         "";
@@ -2158,7 +2139,6 @@ function renderResults(
           <div class="lap-title">
             圈數成績
           </div>
-
 
           <div class="laps">
 
@@ -2183,10 +2163,6 @@ function renderResults(
 
       }
 
-
-      // =================================================
-      // 結果卡片
-      // =================================================
 
       html +=
         `
@@ -2257,10 +2233,6 @@ function renderResults(
           }
 
 
-          <!-- =================================================
-               K 欄總秒
-          ================================================= -->
-
           <div class="total-box">
 
             <span class="total-label">
@@ -2297,7 +2269,7 @@ function renderResults(
 
 
 // =====================================================
-// 判斷圈數是否有資料
+// 判斷是否有資料
 // =====================================================
 
 function hasValue(
@@ -2389,10 +2361,6 @@ function parseSeconds(
       .trim();
 
 
-  // ---------------------------------------------------
-  // MM:SS
-  // ---------------------------------------------------
-
   if (
     text.includes(":")
   ) {
@@ -2438,10 +2406,6 @@ function parseSeconds(
   }
 
 
-  // ---------------------------------------------------
-  // 純秒數
-  // ---------------------------------------------------
-
   const number =
     parseFloat(
       text
@@ -2463,7 +2427,7 @@ function parseSeconds(
 // =====================================================
 // 顯示總秒
 //
-// ★ 直接使用 K 欄
+// ★ 完全使用試算表 K 欄
 // =====================================================
 
 function formatTotalSeconds(
@@ -2511,10 +2475,6 @@ function formatTotalSeconds(
     minutes * 60;
 
 
-  // ---------------------------------------------------
-  // 超過 1 分鐘
-  // ---------------------------------------------------
-
   if (
     minutes > 0
   ) {
@@ -2532,10 +2492,6 @@ function formatTotalSeconds(
 
   }
 
-
-  // ---------------------------------------------------
-  // 小於 1 分鐘
-  // ---------------------------------------------------
 
   return remain.toFixed(2);
 
